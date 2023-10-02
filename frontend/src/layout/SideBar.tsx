@@ -14,6 +14,7 @@ const SideBar = (props: Props) => {
   const [files, setFiles] = useState<any[]>([])
   const [key, setKey] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(false);
+  const [responseData, setResponseData] = useState("")
   const handleFileUpload = (e : any) => {
     setFiles([])
     for (const file  of e.target.files) {
@@ -136,7 +137,7 @@ const SideBar = (props: Props) => {
 
         {files?.length > 0 && <div className="px-6 pt-4 flex justify-between mb-5">
           <button onClick={() => setFiles([])} className='bg-red-400/50 hover:bg-red-500/70 p-3 w-20 border rounded-lg border-slate-900'>Clear</button>
-          <button onClick={handleSubmit} className='bg-slate-400/25 hover:bg-slate-400/50 p-3 w-20 border rounded-lg border-slate-900'>{loading ? "Processing" : "Process"}</button>
+          <button onClick={handleSubmit} className='bg-slate-400/25 hover:bg-slate-400/50 p-3 w-20 border rounded-lg border-slate-900 w-48'>{loading ? "Processing" : "Process"}</button>
         </div>}
 
       </div >
