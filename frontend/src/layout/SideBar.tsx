@@ -2,30 +2,63 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import React, {useState} from 'react'
-
+import 'simplebar-react/dist/simplebar.min.css';
+import SimpleBar from 'simplebar-react';
+import { privateFormDataApi } from '@/axios/publicApi';
 type Props = {}
+
+const API_BASE_URL: string = process.env.API_URL as string
 
 const SideBar = (props: Props) => {
   
   const [files, setFiles] = useState<any[]>([])
-
+  const [key, setKey] = useState<number>(0);
+  const [loading, setLoading] = useState<boolean>(false);
   const handleFileUpload = (e : any) => {
     setFiles([])
     for (const file  of e.target.files) {
-      setFiles((prev : any) => {
-        return [...prev, file]
-      })      
+      if (!file.name.match(/\.(pdf)$/)) {
+        alert("Only pdf files are allowed")
+        setKey((prev) => prev + 1)
+        return false;
+      } 
     }
+    for(const file of e.target.files) {
+    setFiles((prev) => {
+      return [...prev, file]
+    }) 
     
   }
+  }
 
-  console.log({files});
-  
+  const handleSubmit = async () => {
+    if (files.length === 0) {
+      alert("Please upload files")
+      return false;
+    }
+
+    const formData = new FormData();
+
+    files.forEach((file, index) => {
+      formData.append(`file`, file);
+    });
+    setLoading(true)
+    const res = await privateFormDataApi.post('/upload/', formData)
+
+    const data = await res.data
+
+    setLoading(false)
+    console.log({data});
+    
+
+    
+  }
 
   return (
     <div
       className={`text-white z-50 w-96 h-full fixed top-0 duration-300 ease-in-out transition-all bg-[#102030] dark:bg-[#102030] left-0`}
     >
+    <SimpleBar forceVisible="y" autoHide={false} className="h-full" >
       <div className="h-auto">
         <div className="px-6 pt-5">
           <div className="flex items-center justify-between">
@@ -70,7 +103,12 @@ const SideBar = (props: Props) => {
                       PDF Only
                     </p>
                   </div>
-                  <input id="dropzone-file" type="file" className="hidden" multiple onChange={handleFileUpload}/>
+                  <input
+                  accept="application/pdf"
+                   key={key} 
+                   id="dropzone-file" 
+                   type="file" 
+                   className="hidden" multiple onChange={handleFileUpload}/>
                 </label>
               </div>
 
@@ -80,7 +118,7 @@ const SideBar = (props: Props) => {
 
         <div className="px-6 pt-4">
           <ul className='flex flex-col space-y-2'>
-            <h1>Uploaded Files : </h1>
+           {files?.length > 0 && <h1>Uploaded Files : </h1>}
           {
             files?.length > 0 && files?.map((f : any, i : number) => {
               return <>
@@ -96,12 +134,13 @@ const SideBar = (props: Props) => {
           </ul>
         </div>
 
-        {files?.length > 0 && <div className="px-6 pt-4 flex justify-between">
-          <button onClick={() => setFiles([])} className='bg-red-400/60 p-3 w-20 border rounded-lg border-slate-900'>Clear</button>
-          <button onClick={() => setFiles([])} className='bg-green-400/25 p-3 w-20 border rounded-lg border-slate-900'>Upload</button>
+        {files?.length > 0 && <div className="px-6 pt-4 flex justify-between mb-5">
+          <button onClick={() => setFiles([])} className='bg-red-400/50 hover:bg-red-500/70 p-3 w-20 border rounded-lg border-slate-900'>Clear</button>
+          <button onClick={handleSubmit} className='bg-slate-400/25 hover:bg-slate-400/50 p-3 w-20 border rounded-lg border-slate-900'>{loading ? "Processing" : "Process"}</button>
         </div>}
 
       </div >
+      </SimpleBar>
     </div>
   )
 }
