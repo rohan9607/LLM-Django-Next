@@ -8,18 +8,17 @@ Goto -> frontend -> git clone -> Open dir -> open bash terminal into current wor
 
 #Take a latest pull 
 # Create Virtual Environment
-rohan@DESKTOP-0GB68ML MINGW64 /h/Django CRM
-$ python -m venv virt	
+
+$ python -m venv virt
+
 # Activate VENV
-rohan@DESKTOP-0GB68ML MINGW64 /h/Django CRM
 $ source virt/Scripts/activate
 (virt)
 
 #Install Django using pip
-rohan@DESKTOP-0GB68ML MINGW64 /h/Django CRM
 $ pip install django
 
-# go to backend/backend then start server 
+# go to backend/backend where manage.py is located then start server 
 $python manage.py runserver
 
 
