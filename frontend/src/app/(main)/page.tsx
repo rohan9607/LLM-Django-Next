@@ -21,7 +21,7 @@ const page = (props: Props) => {
             return false;
         }
 
-        publicApi.post("/askquestion/", {question : question})
+        publicApi.post("/submit-question/", {question : question})
         .then((res) => {
             console.log(res);
         })

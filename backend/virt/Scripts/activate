@@ -38,7 +38,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="H:\Quantive_Assignment_LLM\Quantive_Assignment_Frontend\backend\virt"
+VIRTUAL_ENV="R:\LLM\Quantive_Assignment\backend\virt"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"
