@@ -10,7 +10,7 @@ $ git clone https://github.com/rohan9607/Quantive_Assignment.git
 Pre-requesite : python 3.11.x 
 1) Go to Quantive_Assignment\backend\backend
    
-#Install required packages
+2)Install required packages
 $ pip install django langchain dotenv django-cors-headers PyPDF2 python-dotenv openai faiss-cpu altair tiktoken huggingface-hub InstructorEmbedding sentence-transformers
 
 3) Create .env file where manage.py is located (root folder)
