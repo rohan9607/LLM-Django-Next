@@ -1,5 +1,5 @@
 # 1) Open Bash Terminal and write command
-$ git clone <currentGitProjectURL>
+$ git clone https://github.com/rohan9607/Quantive_Assignment.git
 
 # Frontend
 1) Go to Quantive_Assignment\frontend
