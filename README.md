@@ -15,9 +15,13 @@ $ pip install django langchain dotenv django-cors-headers PyPDF2 python-dotenv o
 
 3) Create .env file where manage.py is located (root folder)
 paste the following keys :
+
 SECRET_KEY=3kg27f1*jrue6)$26!a6-gmoz_k7^6$0(ig*tjo_u@#fwx2^oe
+
 OPENAI_API_KEY=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
+
 HUGGINGFACEHUB_API_TOKEN=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
+
 
 # Run Server
 $python manage.py runserver
