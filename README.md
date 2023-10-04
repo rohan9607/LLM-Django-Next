@@ -1,24 +1,27 @@
-# Quantive_Assignment_Frontend
-Quantive Assignment Frontend
+# 1) Open Bash Terminal and write command
+$ git clone <currentGitProjectURL>
 
-Goto -> frontend -> git clone -> Open dir -> open bash terminal into current working directory and run npm install --force
+# Frontend
+1) Go to Quantive_Assignment\frontend
+2) run command : npm install --force
+3) run command : npm run dev
 
+# Backend 
+Pre-requesite : python 3.11.x 
+1) Go to Quantive_Assignment\backend\backend
+   
+#Install required packages
+$ pip install django langchain dotenv django-cors-headers PyPDF2 python-dotenv openai faiss-cpu altair tiktoken huggingface-hub InstructorEmbedding sentence-transformers
 
-# Quantive_Assignment_Backend
+3) Create .env file where manage.py is located (root folder)
+paste the following keys :
+SECRET_KEY=3kg27f1*jrue6)$26!a6-gmoz_k7^6$0(ig*tjo_u@#fwx2^oe
+OPENAI_API_KEY=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
+HUGGINGFACEHUB_API_TOKEN=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
 
-#Take a latest pull 
-# Create Virtual Environment
-
-$ python -m venv virt
-
-# Activate VENV
-$ source virt/Scripts/activate
-(virt)
-
-#Install Django using pip
-$ pip install django
-
-# go to backend/backend where manage.py is located then start server 
+# Run Server
 $python manage.py runserver
+
+
 
 
