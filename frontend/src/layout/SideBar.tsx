@@ -44,13 +44,21 @@ const SideBar = (props: Props) => {
       formData.append(`file`, file);
     });
     setLoading(true)
-    const res = await privateFormDataApi.post('/upload/', formData)
+    try {
+      const res = await privateFormDataApi.post('/upload/', formData)
+  
+      const data = await res.data
 
-    const data = await res.data
+      alert("Conversation chain created successfully")
+      setLoading(false)   
+      setFiles([]) 
 
-    setLoading(false)
-    console.log({data});
-    
+    } catch (error) {
+      setLoading(false)    
+
+    }
+
+
 
     
   }

@@ -50,5 +50,4 @@ def create_conversation_chain(vectorstore):
     )
     
     #Here you can add any question regarding to your pdf file for testing
-    print(conversation_chain.run({"question" : "How to Use Adobe PDF Printer Command ?"}))
     return conversation_chain

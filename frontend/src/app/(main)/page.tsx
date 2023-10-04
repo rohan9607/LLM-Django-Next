@@ -1,11 +1,19 @@
 "use client"
 import { publicApi } from '@/axios/publicApi'
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 
 type Props = {}
 
 const page = (props: Props) => {
     const [question, setQuestion] = useState<string>("")
+    const [chatHistory, setChatHistory] = useState([])
+    const bottomEl = useRef<HTMLDivElement>(null);
+    const [gotResponse, setGotResponse] = useState(0)
+
+    useEffect(() => {
+        bottomEl?.current?.scrollIntoView({ behavior: 'smooth' });
+    },[gotResponse])
+
     const handleQuestion = (e : any) => {
         const {value} = e.target;
         if (value) {
@@ -23,13 +31,17 @@ const page = (props: Props) => {
 
         publicApi.post("/submit-question/", {question : question})
         .then((res) => {
-            console.log(res);
+            setChatHistory(res.data.chatHistory)
+            setGotResponse((prev) => prev + 1)
         })
     }
+
+    console.log({chatHistory});
+    
     return (
         <div className='text-white mt-20 px-52'>
             <h1 className='text-4xl font-semibold'>Chat</h1>
-            <div className='mt-3'>
+            <div className='mt-3 sticky top-0'>
                 <label
                     htmlFor="default-search"
                     className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white"
@@ -71,8 +83,19 @@ const page = (props: Props) => {
                     </button>
                 </div>
             </div>
-
-
+            <div>
+                {
+                    chatHistory?.length > 0 && chatHistory.map((chat, i) => {
+                        return <div className='my-3' ref={i === chatHistory?.length - 1 ? bottomEl : null}>
+                            {i % 2  === 0 ? 
+                                <h1 className='p-2 border rounded-md border-slate-900 bg-slate-700 m-1'>{i + 1} ) {chat[0][1]}</h1>
+                                :
+                                <p className='p-2 border rounded-sm border-slate-900 bg-slate-800 m-1'>{chat[0  ][1]}</p>
+                            }
+                        </div>
+                    })
+                }
+            </div>
         </div>
     )
 }

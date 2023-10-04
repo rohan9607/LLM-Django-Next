@@ -14,10 +14,13 @@ chain = None
 globalVectorStore = None
 class UploadViewSet(ViewSet):
     serializer_class = UploadSerializer
-
-    def list(self, request):
-        return Response("GET API")
-
+    
+    def get(self, request, format=None):
+        global chain
+        response = chain.get_chat_history('chat_history')
+        ans = response['chat_history']
+        return Response({'message': "Conversation Chain fetched successfully", "success" : True, "chatHistory" : ans}, status=status.HTTP_200_OK)
+        
     def create(self, request):
         try :
             global chain, globalVectorStore
@@ -33,7 +36,7 @@ class UploadViewSet(ViewSet):
             globalVectorStore = create_vectorstore(chunks)
 
             # Create chat session for conversation
-            create_conversation_chain(globalVectorStore)
+            chain = create_conversation_chain(globalVectorStore)
 
             return Response({'message': "Conversation Chain Created", "success" : True, "raw_text" : raw_text, "chunks" : chunks}, status=status.HTTP_201_CREATED)
         except Exception:
@@ -46,10 +49,11 @@ class QuestionView(APIView):
         serializer = QuestionSerializer(data=request.data)
         if serializer.is_valid():
             question = serializer.validated_data['question']
-            response = chain.run({'question': question})
+            response = chain({'question': question})
             ans = response['chat_history']
-            print({ans})
-            return Response({'message': question, "chatHistory" : response}, status=status.HTTP_201_CREATED)
+            return Response({'message': question, "chatHistory" : ans}, status=status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
+        
+
+
