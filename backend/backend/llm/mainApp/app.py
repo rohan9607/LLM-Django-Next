@@ -1,7 +1,7 @@
 # imports 
 from PyPDF2 import PdfReader
 from langchain.text_splitter import CharacterTextSplitter
-from langchain.embeddings import OpenAIEmbeddings, HuggingFaceBgeEmbeddings
+from langchain.embeddings import OpenAIEmbeddings, HuggingFaceInstructEmbeddings
 from langchain.vectorstores import FAISS
 from langchain.memory import ConversationBufferMemory
 from langchain.chains import ConversationalRetrievalChain
@@ -33,14 +33,14 @@ def make_chunks_of_raw_text(rawText):
     return text_splitter.split_text(rawText)
 
 def create_vectorstore(chunksOfText):
-    embeddings = OpenAIEmbeddings()
+    embeddings = HuggingFaceInstructEmbeddings(model_name="hkunlp/instructor-xl")
     vectorstore = FAISS.from_texts(texts=chunksOfText, embedding=embeddings)
     return vectorstore
 
 def create_conversation_chain(vectorstore):
     global chain
-    # llm = HuggingFaceHub(repo_id="google/flan-t5-xxl", model_kwargs={"temperature":0.2, "max_length":512})
-    llm = ChatOpenAI(temperature=0, model_name='gpt-3.5-turbo-0301')
+    llm = HuggingFaceHub(repo_id="google/flan-t5-xxl", model_kwargs={"temperature":0.2, "max_length":2000})
+    # llm = ChatOpenAI(temperature=0, model_name='gpt-3.5-turbo-0301')
     memory = ConversationBufferMemory(
         memory_key='chat_history', return_messages=True, output_key='answer' , input_key="question")
     conversation_chain = ConversationalRetrievalChain.from_llm(
